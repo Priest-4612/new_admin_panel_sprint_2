@@ -141,7 +141,3 @@ venv.bak/
 01_docker_compose/app/data/static_backend/*
 !01_docker_compose/app/data/media_backend/.gitkeep
 !01_docker_compose/app/data/static_backend/.gitkeep
-
-# /01_docker_compose/app/data/*
-# !01_docker_compose/app/data/media_backend/.gitkeep
-# !01_docker_compose/app/data/static_backend/.gitkeep
