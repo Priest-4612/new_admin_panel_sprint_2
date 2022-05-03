@@ -4,7 +4,7 @@ services:
   backend:
     container_name: admin_panel_backend
     build:
-      context: .
+      context: ./app
     volumes:
       - ./new_admin_panel/static_value:/app/data/static_backend/
       - ./new_admin_panel/media_value:/app/data/media_backend/
