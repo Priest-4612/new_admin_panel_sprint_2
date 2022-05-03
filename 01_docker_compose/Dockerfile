@@ -7,4 +7,4 @@ RUN pip3 install -r ./requirements.txt --no-cache-dir
 COPY ./app ./app
 RUN ls -al
 RUN ls -al app
-CMD ["gunicorn", "app.config.wsgi:application", "--bind", "0:8000" ]
+CMD ["gunicorn", ".app.config.wsgi:application", "--bind", "0:8000" ]
