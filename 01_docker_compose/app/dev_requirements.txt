@@ -1,0 +1,12 @@
+pytest==6.2.5
+
+flake8==4.0
+flake8-bandit==2.1.2
+bandit==1.7.2
+wemake-python-styleguide==0.16.1
+pre-commit==2.15.0
+
+faker==13.3.4
+
+django_extensions
+django-debug-toolbar
