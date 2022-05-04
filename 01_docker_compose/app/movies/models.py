@@ -97,11 +97,13 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         to=Genre,
         verbose_name=_('genres'),
         through='FilmworkGenre',
+        related_name='filmworks',
     )
     persons = models.ManyToManyField(
         to=Person,
         verbose_name=_('persons'),
         through='FilmworkPerson',
+        related_name='filmworks',
     )
 
     class Meta(object):
@@ -133,13 +135,14 @@ class FilmworkGenre(UUIDMixin, CreatedMixin):
         verbose_name=_('genre'),
         db_column='genre_id',
         on_delete=models.CASCADE,
-        related_name='genres',
+        related_name='film_work_genres',
     )
     film_work = models.ForeignKey(
         to=Filmwork,
         verbose_name=_('film_work'),
         db_column='film_work_id',
         on_delete=models.CASCADE,
+        related_name='film_work_genres',
     )
 
     class Meta(object):
@@ -166,13 +169,14 @@ class FilmworkPerson(UUIDMixin, CreatedMixin):
         to='Filmwork',
         db_column='film_work_id',
         on_delete=models.CASCADE,
+        related_name='film_work_persons',
     )
     person = models.ForeignKey(
         verbose_name=_('person'),
         to='Person',
         db_column='person_id',
         on_delete=models.CASCADE,
-        related_name='persons',
+        related_name='film_work_persons',
     )
     role = models.TextField(
         verbose_name=_('role'),
