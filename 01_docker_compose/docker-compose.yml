@@ -3,23 +3,24 @@ version: '3.7'
 services:
   backend:
     container_name: admin_panel_backend
-    build:
-      context: ./app
-    volumes:
-      - ./new_admin_panel/static_value:/app/data/static_backend/
-      - ./new_admin_panel/media_value:/app/data/media_backend/
     restart: always
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    volumes:
+      - ./app:/usr/src/backend
     expose:
       - "8000"
 
   nginx:
     container_name: admin_panel_nginx
+    restart: always
     image: nginx:1.19.2
     volumes:
+      - ./app/data/static_backend:/usr/src/backend/data/static_backend
+      - ./app/data/media_backend:/usr/src/backend/data/media_backend
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/site.conf:/etc/nginx/conf.d/site.conf:ro
-      - ./new_admin_panel/static_value:/app/data/static_backend
-      - ./new_admin_panel/media_value:/app/data/media_backend
     depends_on:
       - backend
     ports:
