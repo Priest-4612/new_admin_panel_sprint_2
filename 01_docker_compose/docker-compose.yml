@@ -18,8 +18,8 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/site.conf:/etc/nginx/conf.d/site.conf:ro
-      - ./new_admin_panel/static_value:/app/data/static_backend/
-      - ./new_admin_panel/media_value:/app/data/media_backend/
+      - ./new_admin_panel/static_value:/app/data/static_backend
+      - ./new_admin_panel/media_value:/app/data/media_backend
     depends_on:
       - backend
     ports:
