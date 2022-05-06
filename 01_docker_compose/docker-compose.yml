@@ -13,7 +13,7 @@ services:
     expose:
       - 5432
     ports:
-      - "5432:5062"
+      - "5062:5432"
 
   backend:
     container_name: admin_panel_backend
