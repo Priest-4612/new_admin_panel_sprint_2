@@ -9,7 +9,7 @@ services:
       - ./env/.env
     volumes:
       - ./app/postgres_data:/var/lib/postgresql/data/
-      - ./init_db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init_db:/docker-entrypoint-initdb.d
     expose:
       - 5432
 
