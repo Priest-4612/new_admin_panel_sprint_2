@@ -1,7 +1,7 @@
 """Объявление admin моделей приложения фильмы."""
 from django.contrib import admin
 
-from movies import models  # isort:skip
+from movies import models
 
 
 @admin.register(models.Genre)

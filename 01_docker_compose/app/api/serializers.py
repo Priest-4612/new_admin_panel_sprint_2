@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
-from movies.models import Filmwork, Role  # isort:skip
+from movies.models import Filmwork
 
 
 class FilmworkSerializer(serializers.ModelSerializer):
-    genres = serializers.SerializerMethodField()
-    actors = serializers.SerializerMethodField()
-    directors = serializers.SerializerMethodField()
-    writers = serializers.SerializerMethodField()
+    genres = serializers.StringRelatedField(many=True, read_only=True)
+    actors = serializers.StringRelatedField(many=True, read_only=True)
+    directors = serializers.StringRelatedField(many=True, read_only=True)
+    writers = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta(object):
         model = Filmwork
@@ -22,36 +22,4 @@ class FilmworkSerializer(serializers.ModelSerializer):
             'actors',
             'directors',
             'writers',
-        ]
-
-    def get_genres(self, filmwork):
-        return [
-            film_work_genre.genre.name
-            for film_work_genre in filmwork.film_work_genres.prefetch_related(
-                'genre',
-            ).all()
-        ]
-
-    def get_actors(self, filmwork):
-        return [
-            filmwork_person.person.full_name
-            for filmwork_person in filmwork.film_work_persons.prefetch_related(
-                'person',
-            ).filter(role=Role.ACTOR)
-        ]
-
-    def get_directors(self, filmwork):
-        return [
-            filmwork_person.person.full_name
-            for filmwork_person in filmwork.film_work_persons.prefetch_related(
-                'person',
-            ).filter(role=Role.DIRECTOR)
-        ]
-
-    def get_writers(self, filmwork):
-        return [
-            filmwork_person.person.full_name
-            for filmwork_person in filmwork.film_work_persons.prefetch_related(
-                'person',
-            ).filter(role=Role.WRITER)
         ]
