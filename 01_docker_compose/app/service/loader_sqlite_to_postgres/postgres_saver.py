@@ -19,11 +19,12 @@ class PostgresSaver(object):
             field.name
             for field in fields(dataclass_dict[table])
         ]
+        tablename = 'content.{table}'.format(table=table)
         join_fields = (', ').join(fields_dataclasses)
         using_attributes = '%s, ' * (len(fields_dataclasses) - 1) + '%s'
-        query = """INSERT INTO {table} ({fields}) VALUES ({values})
+        query = """INSERT INTO {tablename} ({fields}) VALUES ({values})
                    ON CONFLICT (id) DO NOTHING;""".format(
-            table=table,
+            tablename=tablename,
             fields=join_fields,
             values=using_attributes,
         )
