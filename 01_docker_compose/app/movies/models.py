@@ -101,6 +101,12 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         through='FilmworkPerson',
         related_name='filmworks',
     )
+    file_path = models.FileField(
+        verbose_name=_('file'),
+        blank=True,
+        null=True,
+        upload_to='data/movies/',
+    )
 
     class Meta(object):
         db_table = template_tablename.format(tablename='film_work')

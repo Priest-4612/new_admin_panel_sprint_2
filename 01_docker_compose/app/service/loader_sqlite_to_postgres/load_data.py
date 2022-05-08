@@ -37,14 +37,15 @@ def load_from_sqlite(
     sqlite_loader = SQLiteLoader(sqlite_conn)
 
     for table in dataclass_dict.keys():
-        loader = sqlite_loader.load_data(table, dataclass_dict, size)
-        for loaded_data in loader:
-            postgres_saver.save_data(loaded_data, dataclass_dict, size)
+        tables_data = sqlite_loader.load_data(table, dataclass_dict, size)
+        for table_data in tables_data:
+            postgres_saver.save_data(table_data, table, dataclass_dict, size)
 
 
 @contextmanager
 def sqlite_connector(db_path):
     conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
     try:
         yield conn.cursor()
     finally:

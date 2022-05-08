@@ -1,34 +1,28 @@
-from dataclasses import fields
+from dataclasses import astuple
 
-from psycopg2.extras import execute_batch
+from psycopg2.extras import execute_values
 
 
 class PostgresSaver(object):
     def __init__(self, connection):
         self._connection = connection
 
-    def save_data(self, loaded_data, dataclass_dict, save_rows_size=100):
-        if not loaded_data:
+    def save_data(self, table_data, table, dataclass_dict, save_rows_size=100):
+        if not table_data:
             return
-        table = list(loaded_data.keys())[0]
-        tuple_data = [
-            tuple(row.__dict__.values())
-            for row in loaded_data[table]
-        ]
-        fields_dataclasses = [
-            field.name
-            for field in fields(dataclass_dict[table])
-        ]
+        fields = table_data[0].__annotations__.keys()
+        fields_template = (', ').join(fields)
+        fields_template = fields_template.replace('created_at', 'created')
+        fields_template = fields_template.replace('updated_at', 'modified')
+        tuple_data = [astuple(row) for row in table_data]
         tablename = 'content.{table}'.format(table=table)
-        join_fields = (', ').join(fields_dataclasses)
-        using_attributes = '%s, ' * (len(fields_dataclasses) - 1) + '%s'
-        query = """INSERT INTO {tablename} ({fields}) VALUES ({values})
+        query = """INSERT INTO {tablename} ({fields})
+                   VALUES %s
                    ON CONFLICT (id) DO NOTHING;""".format(
             tablename=tablename,
-            fields=join_fields,
-            values=using_attributes,
+            fields=fields_template,
         )
-        execute_batch(
+        execute_values(
             self._connection.cursor(),
             query,
             tuple_data,
