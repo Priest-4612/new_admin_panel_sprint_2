@@ -62,12 +62,13 @@ def postgres_connector(dsl):
 
 if __name__ == '__main__':
     SIZE = 500
-    ENV_PATH = Path(
-        __file__,
-    ).resolve().parents[3].joinpath('env', '.env')
+    BASE_PATH = Path(__file__).resolve()
+    ENV_PATH = BASE_PATH.parents[3].joinpath('env', '.env')
     load_dotenv(dotenv_path=ENV_PATH)
 
-    SQLITE_PATH = os.getenv('SQLITE_PATH', default=None)
+    SQLITE_PATH = BASE_PATH.parent.joinpath(
+        os.getenv('SQLITE_PATH', default=None),
+    )
 
     dsl = {
         'dbname': os.getenv('POSTGRES_DB', None),
