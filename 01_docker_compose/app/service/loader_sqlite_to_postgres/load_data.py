@@ -18,7 +18,6 @@ from dataclasses_models import (  # isort:skip
 from postgres_saver import PostgresSaver  # isort:skip
 from sqlite_loader import SQLiteLoader  # isort:skip
 
-
 dataclass_dict = {
     'film_work': Filmwork,
     'genre': Genre,
@@ -39,7 +38,7 @@ def load_from_sqlite(
     for table in dataclass_dict.keys():
         tables_data = sqlite_loader.load_data(table, dataclass_dict, size)
         for table_data in tables_data:
-            postgres_saver.save_data(table_data, table, dataclass_dict, size)
+            postgres_saver.save_data(table_data, table, size)
 
 
 @contextmanager
@@ -66,7 +65,6 @@ if __name__ == '__main__':
     BASE_PATH = Path(__file__).resolve()
     ENV_PATH = BASE_PATH.parents[3].joinpath('env', '.env')
     load_dotenv(dotenv_path=ENV_PATH)
-
     SQLITE_PATH = BASE_PATH.parent.joinpath(
         os.getenv('SQLITE_PATH', default=None),
     )

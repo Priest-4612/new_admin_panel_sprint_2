@@ -3,9 +3,7 @@ class SQLiteLoader(object):
         self._cursor = cursor
 
     def load_data(self, table, dataclass_dict, load_rows_size=1):
-        query = 'SELECT * FROM {table};'.format(
-            table=table,
-        )
+        query = 'SELECT * FROM {table};'.format(table=table)
         self._cursor.execute(query)
         while True:
             loaded_data = self._cursor.fetchmany(load_rows_size)
